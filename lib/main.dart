@@ -1,5 +1,5 @@
-import 'package:Languor/screens/home.dart';
-import 'package:Languor/screens/login.dart';
+import 'package:Languor/screens/home/home.dart';
+import 'package:Languor/screens/authentication/login.dart';
 import 'package:Languor/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
