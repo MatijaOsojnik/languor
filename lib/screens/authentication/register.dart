@@ -1,22 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:Languor/services/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class Login extends StatefulWidget {
-  // final FirebaseAuth auth;
-  // final FirebaseFirestore firestore;
-
-  // const Login({
-  //   Key key,
-  //   @required this.auth,
-  //   @required this.firestore,
-  // }) : super(key: key);
+class Register extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -24,13 +15,11 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey[800],
-        title: Text('Login'),
+        backgroundColor: Colors.grey,
+        title: Text('Register'),
         actions: [
           FlatButton.icon(
-              onPressed: () {},
-              icon: Icon(Icons.person),
-              label: Text('Register'))
+              onPressed: () {}, icon: Icon(Icons.person), label: Text('Login'))
         ],
       ),
       body: Center(
@@ -57,6 +46,26 @@ class _LoginState extends State<Login> {
                   height: 20,
                 ),
                 RaisedButton(
+                  key: const ValueKey("signIn"),
+                  onPressed: () async {
+                    final String retVal = await _auth.signIn(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    );
+                    if (retVal == "Success") {
+                      _emailController.clear();
+                      _passwordController.clear();
+                    } else {
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(retVal),
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text("Sign In"),
+                ),
+                FlatButton(
                   key: const ValueKey("createAccount"),
                   onPressed: () async {
                     final String retVal = await _auth.createAccount(

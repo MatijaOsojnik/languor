@@ -2,6 +2,7 @@ import 'package:Languor/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   final FirebaseAuth auth;
@@ -16,7 +17,9 @@ class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final user = Provider.of<User>(context);
+    return MaterialApp(
+        home: Scaffold(
       appBar: AppBar(
         title: const Text("Languor"),
         centerTitle: true,
@@ -30,6 +33,9 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-    );
+      body: Center(
+        child: Text(user.email),
+      ),
+    ));
   }
 }
