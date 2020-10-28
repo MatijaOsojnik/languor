@@ -1,16 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Auth {
-  final FirebaseAuth auth;
+class AuthService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Auth({this.auth});
-
-  Stream<User> get user => auth.authStateChanges();
+  Stream<User> get user => _auth.authStateChanges();
 
   Future<String> createAccount({String email, String password}) async {
     try {
-      await auth.createUserWithEmailAndPassword(
-          email: email.trim(), password: password.trim());
+      await _auth.createUserWithEmailAndPassword(
+          email: email.trim(), password: password);
       return "Success";
     } on FirebaseAuthException catch (e) {
       return e.message;
@@ -19,7 +17,7 @@ class Auth {
 
   Future<String> signIn({String email, String password}) async {
     try {
-      await auth.signInWithEmailAndPassword(
+      await _auth.signInWithEmailAndPassword(
           email: email.trim(), password: password);
       return "Success";
     } on FirebaseAuthException catch (e) {
@@ -29,7 +27,7 @@ class Auth {
 
   Future<String> signOut({String email, String password}) async {
     try {
-      await auth.signOut();
+      await _auth.signOut();
       return "Success";
     } on FirebaseAuthException catch (e) {
       return e.message;

@@ -17,6 +17,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final AuthService _auth = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   @override
@@ -47,7 +48,7 @@ class _LoginState extends State<Login> {
                 RaisedButton(
                   key: const ValueKey("signIn"),
                   onPressed: () async {
-                    final String retVal = await Auth(auth: widget.auth).signIn(
+                    final String retVal = await _auth.signIn(
                       email: _emailController.text,
                       password: _passwordController.text,
                     );
@@ -67,8 +68,7 @@ class _LoginState extends State<Login> {
                 FlatButton(
                   key: const ValueKey("createAccount"),
                   onPressed: () async {
-                    final String retVal =
-                        await Auth(auth: widget.auth).createAccount(
+                    final String retVal = await _auth.createAccount(
                       email: _emailController.text,
                       password: _passwordController.text,
                     );

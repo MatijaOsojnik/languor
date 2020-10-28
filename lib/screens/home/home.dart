@@ -13,6 +13,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +25,7 @@ class _HomeState extends State<Home> {
             key: const ValueKey("signOut"),
             icon: const Icon(Icons.exit_to_app),
             onPressed: () {
-              Auth(auth: widget.auth).signOut();
+              _auth.signOut();
             },
           )
         ],
