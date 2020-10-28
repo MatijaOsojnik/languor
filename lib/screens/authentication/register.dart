@@ -3,6 +3,9 @@ import 'package:Languor/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Register extends StatefulWidget {
+  final Function toggleView;
+  Register({this.toggleView});
+
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -15,11 +18,15 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
-        title: Text('Register'),
+        backgroundColor: Colors.grey[800],
+        title: const Text('Register'),
         actions: [
           FlatButton.icon(
-              onPressed: () {}, icon: Icon(Icons.person), label: Text('Login'))
+              onPressed: () {
+                widget.toggleView();
+              },
+              icon: const Icon(Icons.person),
+              label: const Text('Login'))
         ],
       ),
       body: Center(
@@ -46,26 +53,6 @@ class _RegisterState extends State<Register> {
                   height: 20,
                 ),
                 RaisedButton(
-                  key: const ValueKey("signIn"),
-                  onPressed: () async {
-                    final String retVal = await _auth.signIn(
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                    );
-                    if (retVal == "Success") {
-                      _emailController.clear();
-                      _passwordController.clear();
-                    } else {
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(retVal),
-                        ),
-                      );
-                    }
-                  },
-                  child: const Text("Sign In"),
-                ),
-                FlatButton(
                   key: const ValueKey("createAccount"),
                   onPressed: () async {
                     final String retVal = await _auth.createAccount(
@@ -83,8 +70,28 @@ class _RegisterState extends State<Register> {
                       );
                     }
                   },
-                  child: const Text("Create Account"),
-                )
+                  child: const Text("Sign Up"),
+                ),
+                // FlatButton(
+                //   key: const ValueKey("createAccount"),
+                //   onPressed: () async {
+                //     final String retVal = await _auth.createAccount(
+                //       email: _emailController.text,
+                //       password: _passwordController.text,
+                //     );
+                //     if (retVal == "Success") {
+                //       _emailController.clear();
+                //       _passwordController.clear();
+                //     } else {
+                //       Scaffold.of(context).showSnackBar(
+                //         SnackBar(
+                //           content: Text(retVal),
+                //         ),
+                //       );
+                //     }
+                //   },
+                //   child: const Text("Create Account"),
+                // )
               ],
             );
           }),

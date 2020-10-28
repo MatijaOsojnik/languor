@@ -16,10 +16,7 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return Authenticate();
     } else {
-      return Home(
-        auth: _auth,
-        firestore: _firestore,
-      );
+      return Home();
     }
   }
 }

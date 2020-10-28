@@ -12,6 +12,8 @@ class Login extends StatefulWidget {
   //   @required this.auth,
   //   @required this.firestore,
   // }) : super(key: key);
+  final Function toggleView;
+  Login({this.toggleView});
   @override
   _LoginState createState() => _LoginState();
 }
@@ -25,12 +27,14 @@ class _LoginState extends State<Login> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey[800],
-        title: Text('Login'),
+        title: const Text('Login'),
         actions: [
           FlatButton.icon(
-              onPressed: () {},
-              icon: Icon(Icons.person),
-              label: Text('Register'))
+              onPressed: () {
+                widget.toggleView();
+              },
+              icon: const Icon(Icons.person),
+              label: const Text('Register'))
         ],
       ),
       body: Center(
@@ -57,9 +61,9 @@ class _LoginState extends State<Login> {
                   height: 20,
                 ),
                 RaisedButton(
-                  key: const ValueKey("createAccount"),
+                  key: const ValueKey("signIn"),
                   onPressed: () async {
-                    final String retVal = await _auth.createAccount(
+                    final String retVal = await _auth.signIn(
                       email: _emailController.text,
                       password: _passwordController.text,
                     );
@@ -74,8 +78,8 @@ class _LoginState extends State<Login> {
                       );
                     }
                   },
-                  child: const Text("Create Account"),
-                )
+                  child: const Text("Sign In"),
+                ),
               ],
             );
           }),
