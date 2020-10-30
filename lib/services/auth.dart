@@ -1,3 +1,4 @@
+import 'package:Languor/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -7,8 +8,12 @@ class AuthService {
 
   Future<String> createAccount({String email, String password}) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      final result = await _auth.createUserWithEmailAndPassword(
           email: email.trim(), password: password);
+
+      await DatabaseService(uid: result.user.uid)
+          .updateUserData('unknown', 'unknown', 'unknown', 'unknown');
+
       return "Success";
     } on FirebaseAuthException catch (e) {
       return e.message;
