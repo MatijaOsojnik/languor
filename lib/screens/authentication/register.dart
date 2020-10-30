@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:Languor/services/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
-  Register({this.toggleView});
+  const Register({this.toggleView});
 
   @override
   _RegisterState createState() => _RegisterState();

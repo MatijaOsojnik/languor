@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:Languor/services/auth.dart';
 
@@ -13,7 +11,7 @@ class Login extends StatefulWidget {
   //   @required this.firestore,
   // }) : super(key: key);
   final Function toggleView;
-  Login({this.toggleView});
+  const Login({this.toggleView});
   @override
   _LoginState createState() => _LoginState();
 }
@@ -22,6 +20,8 @@ class _LoginState extends State<Login> {
   final AuthService _auth = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
