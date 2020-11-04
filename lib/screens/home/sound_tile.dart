@@ -24,7 +24,7 @@ class SoundTile extends StatelessWidget {
             // ),
             title: Text(sound.name),
             subtitle: Text(sound.description),
-            contentPadding: EdgeInsets.all(30.0),
+            contentPadding: const EdgeInsets.all(30.0),
           )),
     );
   }

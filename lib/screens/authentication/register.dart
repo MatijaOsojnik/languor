@@ -41,12 +41,20 @@ class _RegisterState extends State<Register> {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextFormField(
-                        key: const ValueKey("email"),
-                        textAlign: TextAlign.center,
-                        decoration: const InputDecoration(hintText: "Email"),
-                        controller: _emailController,
-                      ),
+                      const Image(
+                        image: AssetImage('assets/languor-logo-white.png'),
+                        height: 100,
+                        width: 100,
+                      ), // load logo on top of the text fields)
+                      Padding(
+                          padding: const EdgeInsets.only(top: 70.0),
+                          child: TextFormField(
+                            key: const ValueKey("email"),
+                            textAlign: TextAlign.center,
+                            decoration:
+                                const InputDecoration(hintText: "Email"),
+                            controller: _emailController,
+                          )),
                       TextFormField(
                         key: const ValueKey("password"),
                         obscureText: true,

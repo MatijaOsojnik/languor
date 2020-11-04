@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     return StreamProvider<List<Sound>>.value(
-      initialData: List(),
+      initialData: const [],
       value: DatabaseService().sounds,
       child: MaterialApp(
           home: Scaffold(

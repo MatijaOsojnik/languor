@@ -7,7 +7,7 @@ class AuthService {
 
   Future<String> createAccount({String email, String password}) async {
     try {
-      final result = await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
           email: email.trim(), password: password);
 
       // await DatabaseService(uid: result.user.uid)
