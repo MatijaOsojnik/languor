@@ -12,6 +12,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int _currentIndex = 0;
+  final List<Widget> _children = [
+    SoundList(),
+    SoundList(),
+    SoundList(),
+  ];
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
@@ -34,11 +40,36 @@ class _HomeState extends State<Home> {
             )
           ],
         ),
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: onTabTapped,
+          currentIndex:
+              _currentIndex, // this will be set when a new tab is tapped
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today),
+              label: 'Today',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.alarm),
+              label: 'Sleep',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            )
+          ],
+        ),
         // body: Center(
         //   child: Text(user.email),
         // ),
-        body: SoundList(),
+        body: _children[_currentIndex],
       )),
     );
+  }
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 }
