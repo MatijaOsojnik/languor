@@ -11,6 +11,7 @@ class Login extends StatefulWidget {
   //   @required this.auth,
   //   @required this.firestore,
   // }) : super(key: key);
+
   final Function toggleView;
   const Login({this.toggleView});
   @override
@@ -23,6 +24,7 @@ class _LoginState extends State<Login> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool loading = false;
+  String error = '';
   @override
   Widget build(BuildContext context) {
     return loading
@@ -47,6 +49,7 @@ class _LoginState extends State<Login> {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      // Image(image: AssetImage('assets/languor-logo.png')), // load logo on top of the text fields
                       TextFormField(
                         key: const ValueKey("email"),
                         textAlign: TextAlign.center,
@@ -67,6 +70,7 @@ class _LoginState extends State<Login> {
                         key: const ValueKey("signIn"),
                         onPressed: () async {
                           setState(() => loading = true);
+
                           final String retVal = await _auth.signIn(
                             email: _emailController.text,
                             password: _passwordController.text,
@@ -75,16 +79,15 @@ class _LoginState extends State<Login> {
                             _emailController.clear();
                             _passwordController.clear();
                           } else {
-                            setState(() => loading = false);
-                            Scaffold.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(retVal),
-                              ),
-                            );
+                            setState(() => {loading = false, error = retVal});
                           }
                         },
                         child: const Text("Sign In"),
                       ),
+                      const SizedBox(height: 12.0),
+                      Text(error,
+                          style: TextStyle(
+                              color: Colors.red[200], fontSize: 14.0)),
                     ],
                   );
                 }),

@@ -16,6 +16,7 @@ class _RegisterState extends State<Register> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool loading = false;
+  String error = '';
   @override
   Widget build(BuildContext context) {
     return loading
@@ -68,36 +69,15 @@ class _RegisterState extends State<Register> {
                             _emailController.clear();
                             _passwordController.clear();
                           } else {
-                            setState(() => loading = false);
-                            Scaffold.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(retVal),
-                              ),
-                            );
+                            setState(() => {loading = false, error = retVal});
                           }
                         },
                         child: const Text("Sign Up"),
                       ),
-                      // FlatButton(
-                      //   key: const ValueKey("createAccount"),
-                      //   onPressed: () async {
-                      //     final String retVal = await _auth.createAccount(
-                      //       email: _emailController.text,
-                      //       password: _passwordController.text,
-                      //     );
-                      //     if (retVal == "Success") {
-                      //       _emailController.clear();
-                      //       _passwordController.clear();
-                      //     } else {
-                      //       Scaffold.of(context).showSnackBar(
-                      //         SnackBar(
-                      //           content: Text(retVal),
-                      //         ),
-                      //       );
-                      //     }
-                      //   },
-                      //   child: const Text("Create Account"),
-                      // )
+                      const SizedBox(height: 12.0),
+                      Text(error,
+                          style: TextStyle(
+                              color: Colors.red[200], fontSize: 14.0)),
                     ],
                   );
                 }),

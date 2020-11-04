@@ -22,6 +22,8 @@ environment:
 
 dependencies:
   flutter:
+    assets:
+      - assets/languor-logo.png
     sdk: flutter
   firebase_core:
   firebase_auth:
