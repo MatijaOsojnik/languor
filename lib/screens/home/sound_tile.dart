@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:Languor/models/sound.dart';
 import 'package:firebase_image/firebase_image.dart';
+import 'package:Languor/screens/sound/sound_screen.dart';
 
 class SoundTile extends StatelessWidget {
   final Sound sound;
@@ -25,6 +26,14 @@ class SoundTile extends StatelessWidget {
             title: Text(sound.name),
             subtitle: Text(sound.description),
             contentPadding: const EdgeInsets.all(30.0),
+            onTap: () => {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SoundScreen(
+                            sound: sound,
+                          )))
+            },
           )),
     );
   }
