@@ -1,6 +1,12 @@
-import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:Languor/models/sound.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:flutter/material.dart';
+import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
+import 'package:firebase_image/firebase_image.dart';
 
 class AudioWidget extends StatefulWidget {
   final Sound sound;
@@ -11,17 +17,56 @@ class AudioWidget extends StatefulWidget {
 
 class _AudioState extends State<AudioWidget> {
   final AudioPlayer audioPlayer = AudioPlayer();
+  final AudioCache audioCache = AudioCache();
   Duration duration = const Duration();
   Duration position = const Duration();
+
+  var showDuration;
 
   bool playing = false;
 
   @override
+  void initState() {
+    getAudio();
+    audioPlayer.onPlayerCompletion.listen((event) async {
+      await audioPlayer.release();
+      Navigator.pop(context);
+      setState(() {
+        position = duration;
+      });
+    });
+    super.initState();
+  }
+
+  Future<double> _getSoundDuration() async {
+    final audioDuration = await audioPlayer.getDuration();
+    return audioDuration / 1000;
+  }
+
+  Widget getFileDuration() {
+    return FutureBuilder<double>(
+        future: _getSoundDuration(),
+        builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+          if (snapshot.data != null) {
+            showDuration = Duration(seconds: snapshot.data.toInt()).runtimeType;
+          }
+          return Slider.adaptive(
+              value: position.inSeconds.toDouble() ?? 60.0,
+              max: snapshot.data ?? 60.0,
+              onChanged: (double value) => {
+                    setState(() {
+                      final Duration newDuration =
+                          Duration(seconds: value.toInt());
+                      audioPlayer.seek(newDuration);
+                    })
+                  });
+        });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Scaffold(
+      home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
             key: const ValueKey("goBack"),
@@ -35,47 +80,68 @@ class _AudioState extends State<AudioWidget> {
         ),
         backgroundColor: Colors.white,
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            slider(),
-            InkWell(
-              onTap: () => getAudio(),
-              child: Icon(
-                  playing == false
-                      ? Icons.play_circle_outline
-                      : Icons.pause_circle_outline,
-                  size: 50,
-                  color: Colors.blueGrey),
-            )
+            Padding(
+              padding: EdgeInsets.only(bottom: 20.0),
+              child: Image(
+                  image: FirebaseImage(widget.sound.imageUrl),
+                  height: 350,
+                  width: 350),
+            ),
+            Column(
+              children: [
+                getFileDuration(),
+                Text(
+                    '${position.toString().split('.').first} / ${duration.toString().split('.').first}'),
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: FloatingActionButton(
+                    onPressed: () => getAudio(),
+                    backgroundColor: Colors.blue,
+                    child: Icon(
+                      playing == false
+                          ? Icons.play_circle_filled_outlined
+                          : Icons.pause_circle_filled_outlined,
+                      size: 50,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            WaveWidget(
+              duration: 1,
+              config: CustomConfig(
+                gradients: [
+                  [const Color(0xFF3A2DB3), const Color(0xFF3A2DB1)],
+                  [const Color(0xFFEC72EE), const Color(0xFFFF7D9C)],
+                  [const Color(0xFFfc00ff), const Color(0xFF00dbde)],
+                  [const Color(0xFF396afc), const Color(0xFF2948ff)]
+                ],
+                durations: [35000, 19440, 10800, 6000],
+                heightPercentages: [0.20, 0.23, 0.25, 0.30],
+                blur: const MaskFilter.blur(BlurStyle.inner, 5),
+                gradientBegin: Alignment.centerLeft,
+                gradientEnd: Alignment.centerRight,
+              ),
+              waveAmplitude: 1,
+              backgroundColor: Colors.white,
+              size: const Size(double.infinity, 200.0),
+            ),
           ],
         ),
       ),
-    ));
+    );
   }
 
-  Widget slider() {
-    return Slider.adaptive(
-        value: position.inSeconds.toDouble(),
-        min: 0.0,
-        max: duration.inSeconds.toDouble() > 0
-            ? duration.inSeconds.toDouble()
-            : 60.0,
-        onChanged: (double value) => {
-              setState(
-                  () => {audioPlayer.seek(Duration(seconds: value.toInt()))})
-            });
-  }
-
-  // ignore: type_annotate_public_apis
-  // ignore: always_declare_return_types
-  // ignore: type_annotate_public_apis
   Future getAudio() async {
-    // const url =
-    //     'https://assets.mixkit.co/music/preview/mixkit-a-very-happy-christmas-897.mp3';
     //playing is false by default
-    await audioPlayer.setUrl(
-        'https://assets.mixkit.co/music/preview/mixkit-a-very-happy-christmas-897.mp3');
+    final result = await audioPlayer.setUrl(widget.sound.soundUrl);
     await audioPlayer.setReleaseMode(ReleaseMode.STOP);
+    final audioDuration = await audioPlayer.getDuration();
+
+    duration = Duration(milliseconds: audioDuration);
+
     if (playing) {
       //pause audio
       final res = await audioPlayer.pause();
@@ -89,11 +155,14 @@ class _AudioState extends State<AudioWidget> {
         setState(() => {playing = true});
       }
     }
-    audioPlayer.onDurationChanged
-        .listen((Duration d) => {setState(() => duration = d)});
+    audioPlayer.onDurationChanged.listen((Duration d) {
+      print('Max duration: $d');
+      setState(() => duration = d);
+    });
 
-    audioPlayer.onAudioPositionChanged
-        .listen((Duration d) => {setState(() => position = d)});
+    audioPlayer.onAudioPositionChanged.listen((Duration d) {
+      setState(() => position = d);
+    });
 
     audioPlayer.onPlayerError.listen((msg) {
       print('audioPlayer error : $msg');
