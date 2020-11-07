@@ -21,7 +21,11 @@ class _AudioState extends State<AudioWidget> {
   Duration duration = const Duration();
   Duration position = const Duration();
 
-  var showDuration;
+  String get durationText =>
+      duration != null ? duration.toString().split('.').first : '';
+
+  String get positionText =>
+      position != null ? position.toString().split('.').first : '';
 
   bool playing = false;
 
@@ -47,9 +51,6 @@ class _AudioState extends State<AudioWidget> {
     return FutureBuilder<double>(
         future: _getSoundDuration(),
         builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-          if (snapshot.data != null) {
-            showDuration = Duration(seconds: snapshot.data.toInt()).runtimeType;
-          }
           return Slider.adaptive(
               value: position.inSeconds.toDouble() ?? 60.0,
               max: snapshot.data ?? 60.0,
@@ -83,7 +84,7 @@ class _AudioState extends State<AudioWidget> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Padding(
-              padding: EdgeInsets.only(bottom: 20.0),
+              padding: const EdgeInsets.only(bottom: 20.0),
               child: Image(
                   image: FirebaseImage(widget.sound.imageUrl),
                   height: 350,
@@ -93,7 +94,11 @@ class _AudioState extends State<AudioWidget> {
               children: [
                 getFileDuration(),
                 Text(
-                    '${position.toString().split('.').first} / ${duration.toString().split('.').first}'),
+                  position != null
+                      ? "${positionText ?? ''} / ${durationText ?? ''}"
+                      : '',
+                  style: const TextStyle(fontSize: 24.0),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: FloatingActionButton(
@@ -136,7 +141,7 @@ class _AudioState extends State<AudioWidget> {
 
   Future getAudio() async {
     //playing is false by default
-    final result = await audioPlayer.setUrl(widget.sound.soundUrl);
+    await audioPlayer.setUrl(widget.sound.soundUrl);
     await audioPlayer.setReleaseMode(ReleaseMode.STOP);
     final audioDuration = await audioPlayer.getDuration();
 
@@ -156,7 +161,6 @@ class _AudioState extends State<AudioWidget> {
       }
     }
     audioPlayer.onDurationChanged.listen((Duration d) {
-      print('Max duration: $d');
       setState(() => duration = d);
     });
 

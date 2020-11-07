@@ -72,6 +72,7 @@ class _RegisterState extends State<Register> {
                           final String retVal = await _auth.createAccount(
                             email: _emailController.text,
                             password: _passwordController.text,
+                            // displayName: _emailController.text.substring(0, _emailController.text.indexOf('@'))
                           );
                           if (retVal == "Success") {
                             _emailController.clear();
