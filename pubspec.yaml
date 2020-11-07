@@ -31,6 +31,7 @@ dependencies:
   lint:
   provider: ^4.3.2+2
   flutter_spinkit: ^4.1.2+1
+  audioplayers: ^0.16.2
 
 
   # The following adds the Cupertino Icons font to your application.

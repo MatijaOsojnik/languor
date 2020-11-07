@@ -21,9 +21,8 @@ class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
     return StreamProvider<List<Sound>>.value(
-      initialData: const [],
+      initialData: List(),
       value: DatabaseService().sounds,
       child: MaterialApp(
           home: Scaffold(

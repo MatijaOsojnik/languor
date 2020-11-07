@@ -4,6 +4,7 @@ import 'package:Languor/models/sound.dart';
 import 'package:provider/provider.dart';
 import 'package:Languor/services/database.dart';
 import 'package:firebase_image/firebase_image.dart';
+import 'package:Languor/screens/sound/audio.dart';
 
 class SoundScreen extends StatelessWidget {
   final Sound sound;
@@ -61,7 +62,14 @@ class SoundScreen extends StatelessWidget {
                               child: RaisedButton(
                                 textColor: Colors.white,
                                 color: Colors.blue,
-                                onPressed: () => {Navigator.pop(context)},
+                                onPressed: () => {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AudioWidget(
+                                                sound: sound,
+                                              )))
+                                },
                                 child: const Text(
                                   'Begin',
                                   style: TextStyle(fontSize: 20.0),
