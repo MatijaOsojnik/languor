@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Languor/screens/wrapper.dart';
+import 'package:Languor/shared/loading.dart';
 
 // Import the firebase_core plugin
 import 'package:firebase_core/firebase_core.dart';
@@ -32,7 +33,7 @@ class App extends StatelessWidget {
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
-        return const Scaffold(body: Center(child: Text("Loading...")));
+        return Loading();
       },
     );
   }

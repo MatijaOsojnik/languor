@@ -5,6 +5,7 @@ import 'package:Languor/services/database.dart';
 import 'package:Languor/screens/home/sound_list.dart';
 import 'package:Languor/models/sound.dart';
 import 'package:Languor/screens/profile/profile.dart';
+import 'package:Languor/screens/sleep/sleep.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     SoundList(),
-    SoundList(),
+    Sleep(),
     Profile(),
   ];
   final AuthService _auth = AuthService();

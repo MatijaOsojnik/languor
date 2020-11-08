@@ -41,10 +41,14 @@ class SoundScreen extends StatelessWidget {
                                 style: const TextStyle(fontSize: 30),
                               ),
                             ),
-                            Text(
-                              sound.description,
-                              style: const TextStyle(fontSize: 18),
-                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Text(
+                                sound.description,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            )
                           ],
                         ),
                         Image(

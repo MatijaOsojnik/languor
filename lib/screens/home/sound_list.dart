@@ -12,7 +12,9 @@ class _SoundListState extends State<SoundList> {
   @override
   Widget build(BuildContext context) {
     final sounds = Provider.of<List<Sound>>(context);
-    return ListView.builder(
+    return GridView.builder(
+        gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemCount: sounds.length,
         itemBuilder: (context, index) {
           return SoundTile(sound: sounds[index]);
