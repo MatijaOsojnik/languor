@@ -12,7 +12,7 @@ class SoundTile extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.only(top: 8.0),
         child: Card(
-            elevation: 10.0,
+            elevation: 2.0,
             margin: const EdgeInsets.fromLTRB(10.0, 6.0, 10.0, 5.0),
             child: InkWell(
               onTap: () => {
