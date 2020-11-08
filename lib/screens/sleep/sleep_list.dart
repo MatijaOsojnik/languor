@@ -5,6 +5,8 @@ import 'package:Languor/models/category.dart';
 import 'package:Languor/screens/home/sound_tile.dart';
 
 class SleepList extends StatefulWidget {
+  final List<Sound> sounds;
+  const SleepList({this.sounds});
   @override
   _SleepListState createState() => _SleepListState();
 }
@@ -12,7 +14,8 @@ class SleepList extends StatefulWidget {
 class _SleepListState extends State<SleepList> {
   @override
   Widget build(BuildContext context) {
-    final sounds = Provider.of<List<Sound>>(context);
+    // final sounds = Provider.of<List<Sound>>(context);
+    // final categories = Provider.of<List<Category>>(context);
     return Column(
       children: [
         Row(
@@ -20,7 +23,7 @@ class _SleepListState extends State<SleepList> {
             Padding(
                 padding: const EdgeInsets.fromLTRB(10.0, 20.0, 0, 10.0),
                 child: Text(
-                  sounds[0].category,
+                  widget.sounds[0].category,
                   textAlign: TextAlign.start,
                   style: const TextStyle(fontSize: 20.0),
                 )),
@@ -30,10 +33,10 @@ class _SleepListState extends State<SleepList> {
             child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
-                itemCount: sounds.length,
+                itemCount: widget.sounds.length,
                 itemBuilder: (context, index) {
                   return Scaffold(
-                    body: SoundTile(sound: sounds[index]),
+                    body: SoundTile(sound: widget.sounds[index]),
                   );
                 }))
       ],

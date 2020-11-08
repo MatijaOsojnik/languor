@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:Languor/services/database.dart';
-import 'package:Languor/screens/home/sound_list.dart';
 import 'package:Languor/screens/sleep/sleep_list.dart';
-
 import 'package:Languor/models/sound.dart';
-import 'package:provider/provider.dart';
 
 class Sleep extends StatelessWidget {
   @override
@@ -14,7 +11,9 @@ class Sleep extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
-              body: SleepList(),
+              body: SleepList(
+                sounds: snapshot.data,
+              ),
             );
           } else {
             return const LinearProgressIndicator();

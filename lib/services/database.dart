@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Languor/models/sound.dart';
-// import 'package:Languor/models/category.dart';
+import 'package:Languor/models/category.dart';
 
 class DatabaseService {
   final String uid;
@@ -14,8 +14,8 @@ class DatabaseService {
   //     .doc('1Tcu5BKRGAaHhJ8DWmHI')
   //     .collection('sounds');
 
-  // final CollectionReference categorySleepCollection =
-  //     FirebaseFirestore.instance.collection('categories');
+  final CollectionReference categorySleepCollection =
+      FirebaseFirestore.instance.collection('categories');
 
 //sound list from snapshot
   List<Sound> _soundListFromSnapshot(QuerySnapshot snapshot) {
@@ -29,21 +29,22 @@ class DatabaseService {
         .toList();
   }
 
-  // List<Sound> _categorySoundListFromSnapshot(QuerySnapshot snapshot) {
-  //   return snapshot.docs
-  //       .map((doc) => Sound(
-  //           name: doc.data()['name'].toString() ?? '',
-  //           description: doc.data()['description'].toString() ?? '',
-  //           soundUrl: doc.data()['soundUrl'].toString() ?? '',
-  //           imageUrl: doc.data()['imageUrl'].toString() ?? ''))
-  //       .toList();
-  // }
+  List<Sound> _categorySoundListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs
+        .map((doc) => Sound(
+            name: doc.data()['name'].toString() ?? '',
+            description: doc.data()['description'].toString() ?? '',
+            soundUrl: doc.data()['soundUrl'].toString() ?? '',
+            imageUrl: doc.data()['imageUrl'].toString() ?? '',
+            category: doc.data()['category'].toString() ?? ''))
+        .toList();
+  }
 
-  // List<Category> _categorySleepListFromSnapshot(QuerySnapshot snapshot) {
-  //   return snapshot.docs
-  //       .map((doc) => Category(name: doc.data()['name'].toString() ?? ''))
-  //       .toList();
-  // }
+  List<Category> _categorySleepListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs
+        .map((doc) => Category(name: doc.data()['name'].toString() ?? ''))
+        .toList();
+  }
 
 //get sounds stream
   Stream<List<Sound>> get sounds {
@@ -54,7 +55,7 @@ class DatabaseService {
     return soundCollection
         .where('category', isEqualTo: 'Sleep')
         .snapshots()
-        .map(_soundListFromSnapshot);
+        .map(_categorySoundListFromSnapshot);
   }
 
   // Stream<List<Sound>> get categorySounds {
@@ -63,9 +64,9 @@ class DatabaseService {
   //       .map(_categorySoundListFromSnapshot);
   // }
 
-  // Stream<List<Category>> get category {
-  //   return categorySleepCollection
-  //       .snapshots()
-  //       .map(_categorySleepListFromSnapshot);
-  // }
+  Stream<List<Category>> get categories {
+    return categorySleepCollection
+        .snapshots()
+        .map(_categorySleepListFromSnapshot);
+  }
 }
