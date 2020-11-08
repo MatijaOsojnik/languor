@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:Languor/screens/profile/achievements.dart';
 
 class Profile extends StatelessWidget {
   @override
@@ -11,7 +12,7 @@ class Profile extends StatelessWidget {
         body: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Icon(Icons.account_circle_sharp,
                   size: 100, color: Colors.blue[200]),
             ),
@@ -31,25 +32,31 @@ class Profile extends StatelessWidget {
                         child: TabBar(
                           tabs: [
                             Tab(
-                              icon: Icon(
-                                Icons.directions_car,
-                                color: Colors.black,
+                              child: Text(
+                                'Achievements',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18.0),
                               ),
                             ),
                             Tab(
-                                icon: Icon(
-                              Icons.directions_transit,
-                              color: Colors.black,
-                            )),
+                              child: Text(
+                                'Skills',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18.0),
+                              ),
+                              //     icon: Icon(
+                              //   Icons.directions_transit,
+                              //   color: Colors.black,
+                            ),
                           ],
                         ),
                       ),
                     ),
-                    const Expanded(
+                    Expanded(
                       child: TabBarView(
                         children: [
-                          Icon(Icons.directions_car),
-                          Icon(Icons.directions_transit),
+                          Achievements(),
+                          const Icon(Icons.directions_transit),
                         ],
                       ),
                     ),

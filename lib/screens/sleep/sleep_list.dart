@@ -1,7 +1,5 @@
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:Languor/models/sound.dart';
-import 'package:Languor/models/category.dart';
 import 'package:Languor/screens/home/sound_tile.dart';
 
 class SleepList extends StatefulWidget {
@@ -16,21 +14,28 @@ class _SleepListState extends State<SleepList> {
   Widget build(BuildContext context) {
     // final sounds = Provider.of<List<Sound>>(context);
     // final categories = Provider.of<List<Category>>(context);
-    return Column(
-      children: [
-        Row(
-          children: [
-            Padding(
-                padding: const EdgeInsets.fromLTRB(10.0, 20.0, 0, 10.0),
-                child: Text(
-                  widget.sounds[0].category,
-                  textAlign: TextAlign.start,
-                  style: const TextStyle(fontSize: 20.0),
-                )),
-          ],
+    return SingleChildScrollView(
+      child: Theme(
+        data: ThemeData(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
         ),
-        Expanded(
-            child: GridView.builder(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 20.0, 0, 10.0),
+                    child: Text(
+                      widget.sounds[0].category,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(fontSize: 20.0),
+                    )),
+              ],
+            ),
+            GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
                 itemCount: widget.sounds.length,
@@ -38,8 +43,10 @@ class _SleepListState extends State<SleepList> {
                   return Scaffold(
                     body: SoundTile(sound: widget.sounds[index]),
                   );
-                }))
-      ],
+                })
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,6 +1,8 @@
+import 'package:Languor/models/achievement.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Languor/models/sound.dart';
 import 'package:Languor/models/category.dart';
+import 'package:Languor/models/skill.dart';
 
 class DatabaseService {
   final String uid;
@@ -16,6 +18,12 @@ class DatabaseService {
 
   final CollectionReference categorySleepCollection =
       FirebaseFirestore.instance.collection('categories');
+
+  final CollectionReference achievementCollection =
+      FirebaseFirestore.instance.collection('achievements');
+
+  final CollectionReference skillCollection =
+      FirebaseFirestore.instance.collection('skills');
 
 //sound list from snapshot
   List<Sound> _soundListFromSnapshot(QuerySnapshot snapshot) {
@@ -37,6 +45,26 @@ class DatabaseService {
             soundUrl: doc.data()['soundUrl'].toString() ?? '',
             imageUrl: doc.data()['imageUrl'].toString() ?? '',
             category: doc.data()['category'].toString() ?? ''))
+        .toList();
+  }
+
+  List<Achievement> _achievementListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs
+        .map((doc) => Achievement(
+            name: doc.data()['name'].toString() ?? '',
+            description: doc.data()['description'].toString() ?? '',
+            imageUrl: doc.data()['imageUrl'].toString() ?? '',
+            level: doc.data()['level'].toString() ?? '0'))
+        .toList();
+  }
+
+  List<Skill> _skillListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs
+        .map((doc) => Skill(
+            name: doc.data()['name'].toString() ?? '',
+            description: doc.data()['description'].toString() ?? '',
+            imageUrl: doc.data()['imageUrl'].toString() ?? '',
+            level: doc.data()['level'].toString() ?? '0'))
         .toList();
   }
 
@@ -68,5 +96,13 @@ class DatabaseService {
     return categorySleepCollection
         .snapshots()
         .map(_categorySleepListFromSnapshot);
+  }
+
+  Stream<List<Achievement>> get achievements {
+    return achievementCollection.snapshots().map(_achievementListFromSnapshot);
+  }
+
+  Stream<List<Skill>> get skills {
+    return skillCollection.snapshots().map(_skillListFromSnapshot);
   }
 }
