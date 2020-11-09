@@ -24,20 +24,23 @@ class SoundTile extends StatelessWidget {
                             )))
               },
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    // ignore: unnecessary_string_interpolations
-                    '${sound.name.toUpperCase()}',
-                    style: const TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500,
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      // ignore: unnecessary_string_interpolations
+                      '${sound.name.toUpperCase()}',
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                  Image(
-                    image: FirebaseImage(sound.imageUrl),
-                    height: 150,
-                    width: 200,
+                  Expanded(
+                    child: Image(
+                      image: FirebaseImage(sound.imageUrl),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ],
               ),

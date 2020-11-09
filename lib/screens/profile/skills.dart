@@ -3,7 +3,7 @@ import 'package:Languor/models/skill.dart';
 import 'package:Languor/services/database.dart';
 import 'package:Languor/screens/profile/skill_tile.dart';
 
-class Achievements extends StatelessWidget {
+class Skills extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Skill>>(

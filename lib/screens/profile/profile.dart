@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Languor/screens/profile/achievements.dart';
+import 'package:Languor/screens/profile/skills.dart';
 
 class Profile extends StatelessWidget {
   @override
@@ -56,7 +57,7 @@ class Profile extends StatelessWidget {
                       child: TabBarView(
                         children: [
                           Achievements(),
-                          const Icon(Icons.directions_transit),
+                          Skills(),
                         ],
                       ),
                     ),

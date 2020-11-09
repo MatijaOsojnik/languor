@@ -9,7 +9,7 @@ class DatabaseService {
   DatabaseService({this.uid});
 
   final CollectionReference soundCollection =
-      FirebaseFirestore.instance.collection('sounds-test');
+      FirebaseFirestore.instance.collection('sounds');
 
   // final CollectionReference categorySoundCollection = FirebaseFirestore.instance
   //     .collection('categories')
