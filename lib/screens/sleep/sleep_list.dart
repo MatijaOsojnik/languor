@@ -21,6 +21,7 @@ class _SleepListState extends State<SleepList> {
           highlightColor: Colors.transparent,
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               children: [
@@ -40,9 +41,7 @@ class _SleepListState extends State<SleepList> {
                     crossAxisCount: 2),
                 itemCount: widget.sounds.length,
                 itemBuilder: (context, index) {
-                  return Scaffold(
-                    body: SoundTile(sound: widget.sounds[index]),
-                  );
+                  return SoundTile(sound: widget.sounds[index]);
                 })
           ],
         ),
