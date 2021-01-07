@@ -1,6 +1,6 @@
 # Languor
 
-A new Flutter project.
+FLutter based relaxing sounds app
 
 ## Getting Started
 
